@@ -24,10 +24,6 @@ echo -e "# ${GREEN}网址${PLAIN}: https://afosne.xyz                          #
 echo "#############################################################"
 echo ""
 
-read -rp "是否安装脚本？ [Y/N]：" yesno
-
-if [[ $yesno =~ "Y"|"y" ]]; then
-yellow "开始安装..."
 #下载核心程序
 
 mkdir /v2ray
@@ -41,4 +37,3 @@ wget https://github.com/KLafosne/docker/raw/main/config.json
 # 开始后台运行
 #v2ray run
 nohup /v2ray/v2ray run>afosne.txt 2>&1 &
-
