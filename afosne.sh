@@ -39,5 +39,6 @@ chmod +x /v2ray/v2ray
 rm -f /v2ray/config.json
 wget https://github.com/KLafosne/docker/raw/main/config.json
 # 开始后台运行
-#nohup /v2ray/v2ray -config>out.txt 2>&1 &
-v2ray run
+#v2ray run
+nohup /v2ray/v2ray run>afosne.txt 2>&1 &
+
