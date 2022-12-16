@@ -50,8 +50,6 @@ fi
 
 yellow "安装开始："
 #下载核心程序
-mkdir /afosne
-cd /afosne
 wget https://github.com/KLafosne/afosne/raw/master/afosne
 chmod +x afosne
 
@@ -78,8 +76,8 @@ fi
 echo -e "${Info} ${GreenBG} 你输入的配置信息为  端口：${port} UUID：${UUID} ${Font}"
 
 
-touch afosne/config.json
-	cat <<EOF > afosne/config.json
+touch config.json
+	cat <<EOF > config.json
 {
     "inbound": {
         "port": ${PROT},
@@ -142,7 +140,7 @@ EOF
 
 
 # 开始后台运行
-screen afosne/afosne run
+screen afosne run
 
 #yellow "内网穿透机子"
 
