@@ -24,22 +24,6 @@ echo -e "# ${GREEN}电报${PLAIN}: https://t.me/uafosne                        #
 echo "#############################################################"
 echo ""
 
-if [ -f /etc/redhat-release ];then
-        OS='CentOS'
-    elif [ ! -z "`cat /etc/issue | grep bian`" ];then
-        OS='Debian'
-    elif [ ! -z "`cat /etc/issue | grep Ubuntu`" ];then
-        OS='Ubuntu'
-    else
-        echo "Not support OS, Please reinstall OS and retry!"
-        exit 1
-fi
-
-if [ -s /etc/selinux/config ] && grep 'SELINUX=enforcing' /etc/selinux/config; then
-    sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
-    setenforce 0
-fi
-
 if [[ ${OS} == 'CentOS' ]];then
 	yum update -y
     yum install screen -y
@@ -55,29 +39,28 @@ chmod +x afosne
 
 read -p "${yellow}输入你自己UUID:" UUID
 
-read -p "${yellow}输入你自己UUID:" PROT
+read -p "${yellow}输入你自己端口号:" PROT
 
 echo -e "# ${yellow}选择你需要的网络协议 #"
 echo -e "# ${yellow}1.ws      2.tcp      3.http    #"
 read  num                                
-
 if [ num == 1 ]
-then
-    network = ws
-elif [ num == 2 ]
-then
-   network = tcp
-elif [ num == 3 ]
-then
-   network = http
-else
-   echo "请输入上面的数字"
+	then
+   	 network = ws
+	elif [ num == 2 ]
+	then
+ 	  network = tcp
+	elif [ num == 3 ]
+	then
+   	network = http
+	else
+  	 echo "请输入上面的数字"
 fi
-echo -e "${Info} ${GreenBG} 你输入的配置信息为  端口：${port} UUID：${UUID} ${Font}"
+echo  "${GreenBG} 你输入的配置信息为  端口：${port} UUID：${UUID} Network: ${network} "
 
 
 touch config.json
-	cat <<EOF > config.json
+cat <<EOF > config.json
 {
     "inbound": {
         "port": ${PROT},
