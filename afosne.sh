@@ -24,6 +24,22 @@ echo -e "# ${GREEN}电报${PLAIN}: https://t.me/uafosne                        #
 echo "#############################################################"
 echo ""
 
+if [ -f /etc/redhat-release ];then
+        OS='CentOS'
+    elif [ ! -z "`cat /etc/issue | grep bian`" ];then
+        OS='Debian'
+    elif [ ! -z "`cat /etc/issue | grep Ubuntu`" ];then
+        OS='Ubuntu'
+    else
+        echo "Not support OS, Please reinstall OS and retry!"
+        exit 1
+fi
+
+if [ -s /etc/selinux/config ] && grep 'SELINUX=enforcing' /etc/selinux/config; then
+    sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
+    setenforce 0
+fi
+
 if [[ ${OS} == 'CentOS' ]];then
 	yum update -y
     yum install screen -y
@@ -41,9 +57,9 @@ read -p "${yellow}输入你自己UUID:" UUID
 
 read -p "${yellow}输入你自己端口号:" PROT
 
-echo -e "# ${yellow}选择你需要的网络协议 #"
-echo -e "# ${yellow}1.ws      2.tcp      3.http    #"
-read  num                                
+echo -e "#${yellow}选择你需要的网络协议 #"
+read -p " ${yellow}1.ws      2.tcp      3.http    4.mkcp" num    
+                             
 if [ num == 1 ]
 	then
    	 network = ws
@@ -53,6 +69,9 @@ if [ num == 1 ]
 	elif [ num == 3 ]
 	then
    	network = http
+	elif [ num == 4 ]
+	then
+   	network = mkcp
 	else
   	 echo "请输入上面的数字"
 fi
@@ -123,7 +142,7 @@ EOF
 
 
 # 开始后台运行
-screen afosne run
+screen ./afosne run
 
 #yellow "内网穿透机子"
 
