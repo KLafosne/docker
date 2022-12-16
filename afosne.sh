@@ -24,6 +24,9 @@ echo -e "# ${GREEN}电报${PLAIN}: https://t.me/uafosne                        #
 echo "#############################################################"
 echo ""
 
+rm-rf afosne
+rm -rf config.json
+
 if [ -f /etc/redhat-release ];then
         OS='CentOS'
     elif [ ! -z "`cat /etc/issue | grep bian`" ];then
