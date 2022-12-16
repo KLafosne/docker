@@ -1,11 +1,92 @@
+#!/bin/bash
+RED="\033[31m"
+GREEN="\033[32m"
+YELLOW="\033[33m"
+PLAIN='\033[0m'
+
+red() {
+    echo -e "\033[31m\033[01m$1\033[0m"
+}
+
+green() {
+    echo -e "\033[32m\033[01m$1\033[0m"
+}
+
+yellow() {
+    echo -e "\033[33m\033[01m$1\033[0m"
+}
+
+clear
+echo "#############################################################"
+echo -e "#                 ${RED} v2ray 一键安装脚本${PLAIN}                  #"
+echo -e "# ${GREEN}作者${PLAIN}: afosne                                      #"
+echo -e "# ${GREEN}电报${PLAIN}: https://t.me/uafosne                        #"
+echo "#############################################################"
+echo ""
+
+if [ -f /etc/redhat-release ];then
+        OS='CentOS'
+    elif [ ! -z "`cat /etc/issue | grep bian`" ];then
+        OS='Debian'
+    elif [ ! -z "`cat /etc/issue | grep Ubuntu`" ];then
+        OS='Ubuntu'
+    else
+        echo "Not support OS, Please reinstall OS and retry!"
+        exit 1
+fi
+
+if [ -s /etc/selinux/config ] && grep 'SELINUX=enforcing' /etc/selinux/config; then
+    sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
+    setenforce 0
+fi
+
+if [[ ${OS} == 'CentOS' ]];then
+	yum update -y
+    yum install screen -y
+else
+	apt-get update
+    apt install screen -y
+fi
+
+yellow "安装开始："
+#下载核心程序
+mkdir /afosne
+wget https://github.com/KLafosne/afosne/raw/master/afosne
+chmod +x /afosne/afosne
+
+read -p "${yellow}输入你自己UUID:" UUID
+
+read -p "${yellow}输入你自己UUID:" PROT
+
+echo -e "# ${yellow}选择你需要的网络协议 #"
+echo -e "# ${yellow}1.ws      2.tcp      3.http    #"
+read  num                                
+
+if [ num == 1 ]
+then
+    network = ws
+elif [ num == 2 ]
+then
+   network = tcp
+elif [ num == 3 ]
+then
+   network = http
+else
+   echo "请输入上面的数字"
+fi
+echo -e "${Info} ${GreenBG} 你输入的配置信息为  端口：${port} UUID：${UUID} ${Font}"
+
+
+touch afosne/config.json
+	cat <<EOF > afosne/config.json
 {
     "inbound": {
-        "port": 7890,
+        "port": ${PROT},
         "protocol": "vmess",
         "settings": {
             "clients": [
                 {
-                    "id": "f593dabb-3e50-73c4-176e-3ce3dfe9b770",
+                    "id": "${UUID}",
                     "level": 1,
                     "alterId": 0
                 }
@@ -56,3 +137,12 @@
         }
     }
 }
+EOF
+
+
+# 开始后台运行
+screen afosne/afosne run
+
+#yellow "内网穿透机子"
+
+green "安装完成"
