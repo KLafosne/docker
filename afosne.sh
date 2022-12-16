@@ -20,21 +20,21 @@ clear
 echo "#############################################################"
 echo -e "#                 ${RED} v2ray 一键安装脚本${PLAIN}                  #"
 echo -e "# ${GREEN}作者${PLAIN}: afosne                                      #"
-echo -e "# ${GREEN}网址${PLAIN}: https://afosne.xyz                          #"
+echo -e "# ${GREEN}电报${PLAIN}: https://t.me/uafosne                        #"
 echo "#############################################################"
 echo ""
 
 yellow "安装开始："
 #下载核心程序
-mkdir /v2ray
-cd /v2ray
-rm -f /v2ray/v2ray
-wget https://github.com/KLafosne/docker/raw/main/v2ray
+apt update
+apt install screen -y
+mkdir /afosne
+wget https://github.com/KLafosne/afosne/raw/master/afosne
 #设置运行权限
-chmod +x /v2ray/v2ray
-rm -f /v2ray/config.json
-wget https://github.com/KLafosne/docker/raw/main/config.json
+chmod +x /afosne/afosne
+rm -f /afosne/config.json
+wget https://github.com/KLafosne/afosne/raw/main/config.json
 # 开始后台运行
-v2ray run
-#nohup /v2ray/v2ray run>afosne.txt 2>&1 &
+screen afosne/afosne run
+#
 green "安装完成"
