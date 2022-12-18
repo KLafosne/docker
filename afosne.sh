@@ -60,7 +60,7 @@ read -p "${yellow}输入你自己UUID:" UUID
 
 read -p "${yellow}输入你自己端口号:" PROT
 
-echo -e "#${yellow}选择你需要的网络协议 #"
+echo -e "#${yellow}选择你需要的网络协议,默认使用ws#"
 read -p " ${yellow}1.ws      2.tcp      3.http    4.mkcp" num    
                              
 if [ num == 1 ]
@@ -76,7 +76,7 @@ if [ num == 1 ]
 	then
    	network = mkcp
 	else
-  	 echo "请输入上面的数字"
+	 network = ws
 fi
 echo  "${GreenBG} 你输入的配置信息为  端口：${port} UUID：${UUID} Network: ${network} "
 
